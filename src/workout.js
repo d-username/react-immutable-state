@@ -1,6 +1,8 @@
+import DoneDeleteButtons from "./done-deleteButtons";
+
 function Workout(props) {
   return (
-    <li key={props.index}>
+    <li>
       <p>
         {props.workout.sets}x sets of{" "}
         <strong>
@@ -8,15 +10,12 @@ function Workout(props) {
         </strong>{" "}
         with {props.workout.rest} seconds rest
       </p>
-      {!props.workout.done && (
-        <button onClick={(e) => props.completeWorkout(props.workout)}>
-          Done
-        </button>
-      )}
-      {props.workout.done && <p>✅</p>}
-      <button onClick={(e) => props.deleteWorkout(props.workout)}>
-        Delete
-      </button>
+      <DoneDeleteButtons
+        workout={props.workout}
+        deleteWorkout={props.deleteWorkout}
+        completeWorkout={props.completeWorkout}
+        replaceWorkout={props.replaceWorkout}
+      />
     </li>
   );
 }

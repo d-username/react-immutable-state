@@ -3,18 +3,15 @@ import { initialWorkouts, generateWorkout } from "./Workouts.js";
 import "./App.css";
 
 import Workout from "./workout.js";
+import AddButton from "./addButton.js";
+import ShowDoneButton from "./showDoneButton";
 
 function App() {
   const [workouts, setWorkouts] = useState(initialWorkouts);
+  const [showDoneOnly, setShowDoneOnly] = useState(false);
 
   const addNewWorkout = () => {
     const newWorkout = generateWorkout();
-    //LONGER VERSION
-    // const newWorkoutsArray = [...workouts];
-    // newWorkoutsArray.push(newWorkout);
-    // setWorkouts(newWorkoutsArray);
-    //...and...
-    //SHORTER VERSION
     setWorkouts([...workouts, newWorkout]);
   };
 
@@ -37,17 +34,40 @@ function App() {
     setWorkouts(updatedWorkoutsArray);
   };
 
+  const doneWorkouts = workouts.filter((workout) => workout.done === true);
+
+  const toggleDoneOnly = () => {
+    setShowDoneOnly(!showDoneOnly);
+  };
+
+  const workoutsToDisplay = () => {
+    if (showDoneOnly === false) {
+      return workouts;
+    } else {
+      return doneWorkouts;
+    }
+  };
+
+  const replaceWorkout = (workout) => {
+    const updatedWorkouts = workouts.map((item) =>
+      item === workout ? generateWorkout() : item
+    );
+    setWorkouts(updatedWorkouts);
+  };
+
   return (
     <div className="App">
       <h1>🏋️‍♀️Workout Generator</h1>
-      <button onClick={addNewWorkout}>Add New Workout</button>
+      <AddButton addNewWorkout={addNewWorkout} />
+      <ShowDoneButton toggleDoneOnly={toggleDoneOnly} />
       <ul>
-        {workouts.map((workout, index) => (
+        {workoutsToDisplay().map((workout, index) => (
           <Workout
             workout={workout}
             index={index}
             deleteWorkout={deleteWorkout}
             completeWorkout={completeWorkout}
+            replaceWorkout={replaceWorkout}
           />
         ))}
       </ul>

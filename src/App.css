@@ -2,8 +2,15 @@ body {
   padding:10px;
 }
 
+
 li {
   display: grid;
-  grid-template-columns: 400px 70px 70px;
+  grid-template-columns: 400px auto;
   gap:10px;
+}
+
+.grid {
+  display: grid;
+    grid-template-columns: 70px 70px 70px;
+    gap: 10px;
 }
